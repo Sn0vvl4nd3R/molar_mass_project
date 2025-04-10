@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Molar Mass Calculator</title>
+</head>
+<body>
+  <h1>Molar Mass Calculator</h1>
+  
+  <form action="#" th:action="@{/molar_mass}" method="post">
+    <div>
+      <label>M1: <input type="number" step="any" name="M1" required></label>
+      <label>M2: <input type="number" step="any" name="M2" required></label>
+    </div>
+    <div>
+      <label>P1: <input type="number" step="any" name="P1" required></label>
+      <label>P2: <input type="number" step="any" name="P2" required></label>
+    </div>
+    <div>
+      <label>V: <input type="number" step="any" name="V" required></label>
+      <label>T: <input type="number" step="any" name="T" required></label>
+    </div>
+    <button type="submit">Calculate</button>
+  </form>
+
+  <div th:if="${result} != null">
+    <h3>Result: <span th:text="${result}"></span></h3>
+  </div>
+</body>
+</html>

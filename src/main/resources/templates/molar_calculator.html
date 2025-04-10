@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Определение молярной массы газа</title>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+
+<h1>Определение молярной массы газа</h1>
+
+<canvas id="simulationCanvas" width="600" height="300">
+  Ваш браузер не поддерживает элемент canvas.
+</canvas>
+
+<form id="calculationForm">
+    <h2>Данные эксперимента</h2>
+    <p><i>Введите параметры установки и результаты измерений:</i></p>
+    <div class="input-group">
+        <label for="T">Температура газа (t, °C):</label>
+        <input type="number" id="T" name="T" step="any" required placeholder="например, 20" value="20">
+    </div>
+    <div class="input-group">
+        <label for="V">Объем мяча (V, м³):</label>
+        <input type="number" id="V" name="V" step="any" required placeholder="например, 0.01" value="0.01">
+    </div>
+    <hr>
+    <p><i>Измерения:</i></p>
+    <div class="input-group">
+        <label for="P1">Начальное давление (P1, Па):</label>
+        <input type="number" id="P1" name="P1" step="any" required placeholder="например, 101325" value="101325">
+    </div>
+    <div class="input-group">
+        <label for="M1">Начальная масса мяча с газом (m1, г):</label>
+        <input type="number" id="M1" name="M1" step="any" required placeholder="например, 1.0" value="1.17">
+    </div>
+    <div class="input-group">
+        <label for="P2">Конечное давление (P2, Па):</label>
+        <input type="number" id="P2" name="P2" step="any" required placeholder="например, 150000" value="150000">
+    </div>
+     <div class="input-group">
+        <label for="M2">Конечная масса мяча с газом (m2, г):</label>
+        <input type="number" id="M2" name="M2" step="any" required placeholder="например, 1.5" value="1.73">
+    </div>
+
+    <button type="submit" id="calculateMButton">Рассчитать молярную массу (M) и показать анимацию</button>
+</form>
+
+<div id="result-container">
+    <h2>Результат расчета</h2>
+    <p id="error"></p>
+    <p>Рассчитанная молярная масса (M): <span id="result-molar-mass">-</span></p>
+    <p><i>Формула: M = (m2 - m1) * R * T / [(P2 - P1) * V]</i></p>
+</div>
+
+<script src="/js/simulation_animation.js"></script>
+<script src="/js/calculation_logic.js"></script>
+
+</body>
+</html>
