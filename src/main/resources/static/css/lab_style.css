@@ -1,65 +1,280 @@
 :root {
   --gauge-top: 20px;
-  --gauge-right: 20px;
-  --gauge-size: 150px;
+  --gauge-right: 300px;
+  --gauge-size: 300px;
   --needle-length: 60px;
 
   --therm-left: 20px;
-  --therm-bottom: 40px;
-  --therm-width: 60px;
-  --therm-height: 200px;
+  --therm-bottom: 300px;
+  --therm-width: 100px;
+  --therm-height: 500px;
 
-  --ball-top: 60%;
-  --ball-left: 45%;
-  --ball-width: 100px;
+  --ball-initial-top: 65%;
+  --ball-initial-left: 45%;
+  --ball-initial-width: 270px;
 
-  --scales-bottom: 80px;
-  --scales-left: 55%;
-  --scales-width: 180px;
+  --scales-bottom: 70px;
+  --scales-left: 65%;
+  --scales-width: 300px;
+  --scales-height: 270px;
 
-  --pump-bottom: 80px;
-  --pump-left: 35%;
-  --pump-width: 100px;
+  --pump-bottom: 90px;
+  --pump-left: 20%;
+  --pump-width: 300px;
+  --pump-height: 330px;
 
   --pump-max-pressure: 300000;
+  --pressure-display-max: 300;
+  --ball-max-scale: 1.5;
 }
 
-html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; font-family:sans-serif; }
-.lab-environment { position:relative; width:100%; height:100%; }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+}
 
-#background { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.lab-environment {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 
-/* Манометр */
-#gauge { position:absolute; top:var(--gauge-top); right:var(--gauge-right); width:var(--gauge-size); height:var(--gauge-size); }
-.gauge-face { width:100%; height:100%; }
-.gauge-needle { position:absolute; top:50%; left:50%; width:4px; height:var(--needle-length); background:#d9534f; transform-origin:bottom center; transform:translate(-50%,0) rotate(-135deg); transition:transform 0.1s linear; }
-#gauge-value { position:absolute; top:calc(100% + 4px); left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.8); padding:2px 6px; border-radius:4px; font-family:monospace; font-weight:bold; }
+#background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
 
-/* Термометр */
-#thermometer { position:absolute; left:var(--therm-left); bottom:var(--therm-bottom); width:var(--therm-width); height:var(--therm-height); }
-.thermo-tube { position:relative; width:100%; height:100%; background:#ccc; border-radius:20px; overflow:hidden; }
-.thermo-liquid { position:absolute; bottom:0; width:100%; height:0%; background:#d9534f; transition:height 0.1s linear; }
-#thermo-value { position:absolute; top:0; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.8); padding:2px 6px; border-radius:4px; font-family:monospace; font-weight:bold; }
+#gauge {
+  position: absolute;
+  top: var(--gauge-top);
+  right: var(--gauge-right);
+  width: var(--gauge-size);
+  height: var(--gauge-size);
+  z-index: 5;
+}
+.gauge-face {
+  width: 100%;
+  height: 100%;
+}
+.gauge-needle {
+  position: absolute;
+  top: 37%;
+  left: 50%;
+  width: 5px;
+  height: var(--needle-length);
+  background: #d9534f;
+  transform-origin: bottom center;
+  transform: translate(-50%, 0) rotate(-135deg);
+  transition: transform 0.1s linear;
+  z-index: 6;
+}
+#gauge-value {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 0.9em;
+  z-index: 7;
+  white-space: nowrap;
+}
 
-/* Шарик */
-#ball { position:absolute; top:var(--ball-top); left:var(--ball-left); width:var(--ball-width); transition:width 0.1s ease; z-index:2; cursor:grab; }
-.ball-at-pump { width:calc(var(--ball-width) * var(--pressure-ratio)); }
-.ball-on-scales { width:var(--ball-width); }
+#thermometer {
+  position: absolute;
+  left: var(--therm-left);
+  bottom: var(--therm-bottom);
+  width: var(--therm-width);
+  height: var(--therm-height);
+  z-index: 5;
+}
+.thermo-tube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #e0e0e0;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 3px solid #777;
+  box-sizing: border-box;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
+}
+.thermo-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  right: 25%;
+  width: 50%;
+  height: 0%;
+  background: linear-gradient(to top, #e53935, #ef5350);
+  transition: height 0.2s linear;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+#thermo-value {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 0.9em;
+  z-index: 7;
+  white-space: nowrap;
+}
 
-/* Весы */
-#scales-area { position:absolute; bottom:var(--scales-bottom); left:var(--scales-left); width:var(--scales-width); }
-#scales { width:100%; }
-#scales-mass-display { position:absolute; top:-28px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.8); padding:2px 6px; border-radius:4px; font-family:monospace; font-weight:bold; z-index:3; }
+#ball {
+  position: absolute;
+  top: var(--ball-initial-top);
+  left: var(--ball-initial-left);
+  width: var(--ball-initial-width);
+  height: auto;
+  transform-origin: center bottom;
+  transition: transform 0.15s ease-out, left 0.1s ease-out, top 0.1s ease-out;
+  z-index: 10;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+#ball:active {
+  cursor: grabbing;
+}
+#ball:not(.ball-at-pump) {
+    transform: scale(1);
+}
 
-/* Насос */
-#pump-area { position:absolute; bottom:var(--pump-bottom); left:var(--pump-left); width:var(--pump-width); }
-#pump { width:100%; }
+#scales-area {
+  position: absolute;
+  bottom: var(--scales-bottom);
+  left: var(--scales-left);
+  width: var(--scales-width);
+  height: var(--scales-height);
+  z-index: 1;
+}
+#scales {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+#scales-mass-display {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000000;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 1.1em;
+  z-index: 11;
+  white-space: nowrap;
+}
 
-/* Панель */
-#controls-panel { position:absolute; top:0; right:0; width:300px; height:100%; background:rgba(255,255,255,0.95); padding:20px; overflow-y:auto; }
-#controls-panel h2 { text-align:center; }
-#controls-panel label { display:block; margin-bottom:10px; font-weight:bold; }
-#controls-panel input, #controls-panel select { width:100%; padding:6px; margin-top:4px; border:1px solid #ccc; border-radius:4px; }
-.error-message { color:#d9534f; min-height:1.2em; }
-.result-item { margin-top:10px; font-family:monospace; }
-.formula { margin-top:20px; font-size:0.9em; color:#555; }
+#pump-area {
+  position: absolute;
+  bottom: var(--pump-bottom);
+  left: var(--pump-left);
+  width: var(--pump-width);
+  height: var(--pump-height);
+  z-index: 1;
+}
+#pump {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#controls-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: rgba(245, 245, 245, 0.97);
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: -3px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+  box-sizing: border-box;
+}
+#controls-panel h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+#controls-panel label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #555;
+}
+#controls-panel input,
+#controls-panel select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 0.95em;
+}
+#controls-panel input:focus,
+#controls-panel select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+.error-message {
+  color: #d9534f;
+  min-height: 1.2em;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 0.9em;
+  background-color: rgba(217, 83, 79, 0.1);
+  padding: 5px;
+  border-radius: 3px;
+  border-left: 3px solid #d9534f;
+}
+.result-item {
+  margin-top: 12px;
+  font-family: monospace;
+  font-size: 1em;
+  color: #333;
+  padding: 5px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+}
+.result-item span {
+    font-weight: bold;
+    color: #000;
+}
+.formula {
+  margin-top: 20px;
+  font-size: 0.85em;
+  color: #666;
+  word-wrap: break-word;
+  line-height: 1.4;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
