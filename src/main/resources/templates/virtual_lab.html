@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Виртуальная лаборатория: Определение молярной массы газа</title>
+  <link rel="stylesheet" href="/css/lab_style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="lab-environment">
+    <!-- Полноэкранный фон -->
+    <img id="background" src="/img/background.png" alt="Лаборатория">
+
+    <!-- Манометр -->
+    <div id="gauge">
+      <img class="gauge-face" src="/img/gauge_face.png" alt="Манометр">
+      <div class="gauge-needle"></div>
+      <div id="gauge-value">101.3 кПа</div>
+    </div>
+
+    <!-- Термометр -->
+    <div id="thermometer">
+      <div class="thermo-tube">
+        <div class="thermo-liquid"></div>
+      </div>
+      <div id="thermo-value">20 °C</div>
+    </div>
+
+    <!-- Шарик -->
+    <img id="ball" src="/img/ball.png" alt="Мяч">
+
+    <!-- Весы -->
+    <div id="scales-area">
+      <img id="scales" src="/img/scales.png" alt="Весы">
+      <div id="scales-mass-display">1.17 г</div>
+    </div>
+
+    <!-- Насос -->
+    <div id="pump-area">
+      <img id="pump" src="/img/pump.png" alt="Насос">
+    </div>
+  </div>
+
+  <!-- справа панель параметров и результатов -->
+  <div id="controls-panel">
+    <h2>Параметры эксперимента</h2>
+    <form id="paramsForm">
+      <label>Газ:
+        <select id="gasSelect" required>
+          <option value="" disabled selected>-- Выберите газ --</option>
+          <th:block th:each="g : ${gasMap}">
+            <option th:value="${g.key}" th:text="${g.key}"></option>
+          </th:block>
+        </select>
+      </label>
+      <label>Температура (T, °C):
+        <input type="number" id="T" value="20" step="any">
+      </label>
+      <label>Объем (V, м³):
+        <input type="number" id="V" value="0.01" step="any">
+      </label>
+      <label>Давление P₁ (Па):
+        <input type="number" id="P1" value="101325" step="any">
+      </label>
+      <label>Масса m₁ (г):
+        <input type="number" id="M1" value="1.17" step="any">
+      </label>
+      <div id="error-message" class="error-message"></div>
+    </form>
+    <h2>Результаты</h2>
+    <div class="result-item">m₂: <span id="result-m2">-</span> г</div>
+    <div class="result-item">M:  <span id="result-M">-</span> г/моль</div>
+    <p class="formula">M = (m₂ – m₁)·R·T(K) / [(P₂ – P₁)·V]</p>
+  </div>
+
+  <script src="/js/lab_interaction.js" defer></script>
+</body>
+</html>

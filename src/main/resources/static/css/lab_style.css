@@ -1,0 +1,65 @@
+:root {
+  --gauge-top: 20px;
+  --gauge-right: 20px;
+  --gauge-size: 150px;
+  --needle-length: 60px;
+
+  --therm-left: 20px;
+  --therm-bottom: 40px;
+  --therm-width: 60px;
+  --therm-height: 200px;
+
+  --ball-top: 60%;
+  --ball-left: 45%;
+  --ball-width: 100px;
+
+  --scales-bottom: 80px;
+  --scales-left: 55%;
+  --scales-width: 180px;
+
+  --pump-bottom: 80px;
+  --pump-left: 35%;
+  --pump-width: 100px;
+
+  --pump-max-pressure: 300000;
+}
+
+html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; font-family:sans-serif; }
+.lab-environment { position:relative; width:100%; height:100%; }
+
+#background { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+
+/* Манометр */
+#gauge { position:absolute; top:var(--gauge-top); right:var(--gauge-right); width:var(--gauge-size); height:var(--gauge-size); }
+.gauge-face { width:100%; height:100%; }
+.gauge-needle { position:absolute; top:50%; left:50%; width:4px; height:var(--needle-length); background:#d9534f; transform-origin:bottom center; transform:translate(-50%,0) rotate(-135deg); transition:transform 0.1s linear; }
+#gauge-value { position:absolute; top:calc(100% + 4px); left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.8); padding:2px 6px; border-radius:4px; font-family:monospace; font-weight:bold; }
+
+/* Термометр */
+#thermometer { position:absolute; left:var(--therm-left); bottom:var(--therm-bottom); width:var(--therm-width); height:var(--therm-height); }
+.thermo-tube { position:relative; width:100%; height:100%; background:#ccc; border-radius:20px; overflow:hidden; }
+.thermo-liquid { position:absolute; bottom:0; width:100%; height:0%; background:#d9534f; transition:height 0.1s linear; }
+#thermo-value { position:absolute; top:0; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.8); padding:2px 6px; border-radius:4px; font-family:monospace; font-weight:bold; }
+
+/* Шарик */
+#ball { position:absolute; top:var(--ball-top); left:var(--ball-left); width:var(--ball-width); transition:width 0.1s ease; z-index:2; cursor:grab; }
+.ball-at-pump { width:calc(var(--ball-width) * var(--pressure-ratio)); }
+.ball-on-scales { width:var(--ball-width); }
+
+/* Весы */
+#scales-area { position:absolute; bottom:var(--scales-bottom); left:var(--scales-left); width:var(--scales-width); }
+#scales { width:100%; }
+#scales-mass-display { position:absolute; top:-28px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.8); padding:2px 6px; border-radius:4px; font-family:monospace; font-weight:bold; z-index:3; }
+
+/* Насос */
+#pump-area { position:absolute; bottom:var(--pump-bottom); left:var(--pump-left); width:var(--pump-width); }
+#pump { width:100%; }
+
+/* Панель */
+#controls-panel { position:absolute; top:0; right:0; width:300px; height:100%; background:rgba(255,255,255,0.95); padding:20px; overflow-y:auto; }
+#controls-panel h2 { text-align:center; }
+#controls-panel label { display:block; margin-bottom:10px; font-weight:bold; }
+#controls-panel input, #controls-panel select { width:100%; padding:6px; margin-top:4px; border:1px solid #ccc; border-radius:4px; }
+.error-message { color:#d9534f; min-height:1.2em; }
+.result-item { margin-top:10px; font-family:monospace; }
+.formula { margin-top:20px; font-size:0.9em; color:#555; }
