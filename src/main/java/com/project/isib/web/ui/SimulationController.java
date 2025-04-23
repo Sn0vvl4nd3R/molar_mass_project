@@ -9,18 +9,17 @@ import org.springframework.ui.Model;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Collections;
 
 @Controller
 public class SimulationController {
 
-  public static final Map<String, Double> GAS_MOLAR_MASSES_KG_MOL = Collections.unmodifiableMap(Map.of(
+  public static final Map<String, Double> GAS_MOLAR_MASSES_KG_MOL = Map.of(
     "He", 0.00400,
     "N2", 0.02801,
     "O2", 0.03200,
     "Ar", 0.03995,
     "CO2", 0.04401
-  ));
+  );
 
   private static final double R = 8.314;
 
