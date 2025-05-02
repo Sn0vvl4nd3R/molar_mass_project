@@ -8,14 +8,17 @@
 </head>
 <body>
   <div class="lab-environment">
+    <!-- Фон -->
     <img id="background" src="/img/background.png" alt="Лаборатория">
 
+    <!-- Манометр -->
     <div id="gauge">
       <img class="gauge-face" src="/img/gauge_face.png" alt="Манометр">
       <div class="gauge-needle"></div>
       <div id="gauge-value">101.3 кПа</div>
     </div>
 
+    <!-- Термометр -->
     <div id="thermometer">
       <div class="thermo-tube">
         <div class="thermo-liquid"></div>
@@ -23,48 +26,71 @@
       <div id="thermo-value">20 °C</div>
     </div>
 
+    <!-- Шарик -->
     <img id="ball" src="/img/ball.png" alt="Мяч">
 
+    <!-- Зона весов -->
     <div id="scales-area">
       <img id="scales" src="/img/scales.png" alt="Весы">
-      <div id="scales-mass-display">1.170 г</div>
+      <div id="scales-mass-display">- г</div>
     </div>
 
+    <!-- Зона насоса -->
     <div id="pump-area">
       <img id="pump" src="/img/pump.png" alt="Насос">
     </div>
   </div>
 
+  <!-- Панель управления -->
   <div id="controls-panel">
-    <h2>Параметры</h2>
+    <h2>Параметры эксперимента</h2>
     <form id="paramsForm">
+      <!-- Выбор газа -->
       <label>Газ:
         <select id="gasSelect" required>
           <option value="" disabled selected>-- Выберите газ --</option>
+          <!-- Thymeleaf заполнит этот список -->
           <th:block th:each="g : ${gasMap}">
             <option th:value="${g.key}" th:text="${g.key}"></option>
           </th:block>
         </select>
       </label>
+      <!-- Температура -->
       <label>Температура (T, °C):
         <input type="number" id="T" value="20" step="any" required>
       </label>
+      <!-- Объем -->
       <label>Объем (V, м³):
         <input type="number" id="V" value="0.01" step="0.001" min="0.001" required>
       </label>
+      <!-- Начальное давление -->
       <label>Давление P₁ (Па):
         <input type="number" id="P1" value="101325" step="1" min="1" required>
       </label>
+      <!-- Начальная масса -->
       <label>Масса m₁ (г):
         <input type="number" id="M1" value="1.17" step="0.01" min="0" required>
       </label>
+      <!-- Область для сообщений об ошибках -->
+      <div id="error-message" class="error-message"></div>
     </form>
-    <hr>
+
+    <hr style="margin: 20px 0;">
+
     <h2>Результаты</h2>
+    <!-- Вывод конечной массы -->
     <div class="result-item">m₂: <span id="result-m2">-</span> г</div>
+    <!-- Вывод молярной массы -->
     <div class="result-item">M:  <span id="result-M">-</span> г/моль</div>
-    <p class="formula">M = (m₂ – m₁)·R·T / [(P₂ – P₁)·V]</p>
-     <p class="formula">R ≈ 8.314 Дж/(моль·К)</p>
+    <!-- Формула для справки -->
+    <p class="formula">M = (m₂ – m₁)·R·T(K) / [(P₂ – P₁)·V]<br>R ≈ 8.314 Дж/(моль·К)</p>
+
+    <hr style="margin: 20px 0;">
+
+    <!-- Кнопка сброса -->
+    <button id="resetButton" type="button" title="Сбросить все к начальным параметрам">
+      Сбросить симуляцию
+    </button>
   </div>
 
   <script src="/js/lab_interaction.js" defer></script>

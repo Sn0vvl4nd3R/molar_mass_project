@@ -1,4 +1,5 @@
 :root {
+  /* Размеры и положения */
   --gauge-top: 20px;
   --gauge-right: 300px;
   --gauge-size: 300px;
@@ -23,12 +24,15 @@
   --pump-width: 300px;
   --pump-height: 330px;
 
-  --pump-max-pressure: 300000;
-  --pressure-display-max: 300;
-  --ball-max-scale: 1.5;
+  /* Параметры симуляции */
+  --pump-max-pressure: 300000; /* Па */
+  --pressure-display-max: 300;  /* кПа */
+  --ball-max-scale: 1.5;        /* 150% (относительно) */
 }
 
-html, body {
+/* Глобальные правила */
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -52,6 +56,9 @@ html, body {
   z-index: -1;
 }
 
+/* ------------------------------------------------------------
+ * Манометр (Gauge)
+ * ------------------------------------------------------------ */
 #gauge {
   position: absolute;
   top: var(--gauge-top);
@@ -60,10 +67,12 @@ html, body {
   height: var(--gauge-size);
   z-index: 5;
 }
+
 .gauge-face {
   width: 100%;
   height: 100%;
 }
+
 .gauge-needle {
   position: absolute;
   top: 37%;
@@ -76,6 +85,7 @@ html, body {
   transition: transform 0.1s linear;
   z-index: 6;
 }
+
 #gauge-value {
   position: absolute;
   top: calc(100% + 4px);
@@ -91,6 +101,9 @@ html, body {
   white-space: nowrap;
 }
 
+/* ------------------------------------------------------------
+ * Термометр
+ * ------------------------------------------------------------ */
 #thermometer {
   position: absolute;
   left: var(--therm-left);
@@ -99,6 +112,7 @@ html, body {
   height: var(--therm-height);
   z-index: 5;
 }
+
 .thermo-tube {
   position: relative;
   width: 100%;
@@ -108,8 +122,9 @@ html, body {
   overflow: hidden;
   border: 3px solid #777;
   box-sizing: border-box;
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .thermo-liquid {
   position: absolute;
   bottom: 0;
@@ -122,6 +137,7 @@ html, body {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
 #thermo-value {
   position: absolute;
   top: -25px;
@@ -137,6 +153,9 @@ html, body {
   white-space: nowrap;
 }
 
+/* ------------------------------------------------------------
+ * Газовый шар (Ball)
+ * ------------------------------------------------------------ */
 #ball {
   position: absolute;
   top: var(--ball-initial-top);
@@ -144,7 +163,10 @@ html, body {
   width: var(--ball-initial-width);
   height: auto;
   transform-origin: center bottom;
-  transition: transform 0.15s ease-out, left 0.1s ease-out, top 0.1s ease-out;
+  transition:
+    transform 0.15s ease-out,
+    left 0.1s ease-out,
+    top 0.1s ease-out;
   z-index: 10;
   cursor: grab;
   user-select: none;
@@ -152,13 +174,14 @@ html, body {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
 #ball:active {
   cursor: grabbing;
 }
-#ball:not(.ball-at-pump) {
-    transform: scale(1);
-}
 
+/* ------------------------------------------------------------
+ * Электронные весы
+ * ------------------------------------------------------------ */
 #scales-area {
   position: absolute;
   bottom: var(--scales-bottom);
@@ -167,12 +190,14 @@ html, body {
   height: var(--scales-height);
   z-index: 1;
 }
+
 #scales {
   width: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
 }
+
 #scales-mass-display {
   position: absolute;
   top: 130px;
@@ -188,6 +213,9 @@ html, body {
   white-space: nowrap;
 }
 
+/* ------------------------------------------------------------
+ * Насос (Pump)
+ * ------------------------------------------------------------ */
 #pump-area {
   position: absolute;
   bottom: var(--pump-bottom);
@@ -196,6 +224,7 @@ html, body {
   height: var(--pump-height);
   z-index: 1;
 }
+
 #pump {
   width: 100%;
   position: absolute;
@@ -203,6 +232,9 @@ html, body {
   left: 0;
 }
 
+/* ------------------------------------------------------------
+ * Панель управления (Control Panel)
+ * ------------------------------------------------------------ */
 #controls-panel {
   position: absolute;
   top: 0;
@@ -216,12 +248,13 @@ html, body {
   z-index: 20;
   box-sizing: border-box;
 }
+
 #controls-panel h2 {
   text-align: center;
-  margin-top: 0;
-  margin-bottom: 15px;
+  margin: 0 0 15px;
   color: #333;
 }
+
 #controls-panel label {
   display: block;
   margin-bottom: 12px;
@@ -229,6 +262,7 @@ html, body {
   font-size: 0.9em;
   color: #555;
 }
+
 #controls-panel input,
 #controls-panel select {
   width: 100%;
@@ -239,12 +273,15 @@ html, body {
   box-sizing: border-box;
   font-size: 0.95em;
 }
+
 #controls-panel input:focus,
 #controls-panel select:focus {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
   outline: none;
 }
+
+/* --- Сообщения и результаты --- */
 .error-message {
   color: #d9534f;
   min-height: 1.2em;
@@ -256,6 +293,7 @@ html, body {
   border-radius: 3px;
   border-left: 3px solid #d9534f;
 }
+
 .result-item {
   margin-top: 12px;
   font-family: monospace;
@@ -265,10 +303,12 @@ html, body {
   background-color: #e9ecef;
   border-radius: 3px;
 }
+
 .result-item span {
-    font-weight: bold;
-    color: #000;
+  font-weight: bold;
+  color: #000;
 }
+
 .formula {
   margin-top: 20px;
   font-size: 0.85em;
@@ -277,4 +317,31 @@ html, body {
   line-height: 1.4;
   border-top: 1px solid #ddd;
   padding-top: 10px;
+}
+
+/* ------------------------------------------------------------
+ * Кнопка сброса
+ * ------------------------------------------------------------ */
+#resetButton {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  margin-top: 20px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+#resetButton:hover {
+  background-color: #5a6268;
+}
+
+#resetButton:active {
+  background-color: #4e555b;
 }
